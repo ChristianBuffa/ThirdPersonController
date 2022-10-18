@@ -6,8 +6,11 @@ public class InputManager : MonoBehaviour
 {
     private PlayerControls playerControls;
     private AnimatorManager animatorManager;
+    private PlayerLocomotion playerLocomotion;
 
-    private float moveAmount;
+    public float moveAmount;
+
+    public bool sprintingInput;
 
     [SerializeField]
     Vector2 movementInput;
@@ -19,6 +22,7 @@ public class InputManager : MonoBehaviour
     private void Awake()
     {
         animatorManager = GetComponent<AnimatorManager>();
+        playerLocomotion = GetComponent<PlayerLocomotion>();
     }
 
     private void OnEnable()
@@ -28,6 +32,9 @@ public class InputManager : MonoBehaviour
             playerControls = new PlayerControls();
 
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
+
+            playerControls.PlayerActions.SprintingButton.performed += i => sprintingInput = true;
+            playerControls.PlayerActions.SprintingButton.canceled += i => sprintingInput = false;
         }
 
         playerControls.Enable();
@@ -41,6 +48,7 @@ public class InputManager : MonoBehaviour
     public void HandleAllInputs()
     {
         HandleMovementInput();
+        HandleSprintingInput();
     }
 
     private void HandleMovementInput()
@@ -49,6 +57,18 @@ public class InputManager : MonoBehaviour
         horizontalInput = movementInput.x;
 
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
-        animatorManager.UpdateAnimatorValues(0, moveAmount);
+        animatorManager.UpdateAnimatorValues(0, moveAmount, playerLocomotion.isSprinting);
+    }
+
+    private void HandleSprintingInput()
+    {
+        if (sprintingInput && moveAmount > 0.5f)
+        {
+            playerLocomotion.isSprinting = true;
+        }
+        else
+        {
+            playerLocomotion.isSprinting = false;
+        }
     }
 }

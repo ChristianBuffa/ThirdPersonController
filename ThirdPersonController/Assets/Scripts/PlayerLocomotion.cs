@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class PlayerLocomotion : MonoBehaviour
 {
@@ -12,10 +13,16 @@ public class PlayerLocomotion : MonoBehaviour
 
     private Vector3 moveDirection;
 
-    [SerializeField]
-    private float movementSpeed;
+    public bool isSprinting;
+    
+    [FormerlySerializedAs("movementSpeed")] [SerializeField]
+    private float runningSpeed;
     [SerializeField]
     private float rotationSpeed;
+    [SerializeField]
+    private float walkSpeed;
+    [SerializeField] 
+    private float sprintingSpeed;
 
     private void Awake()
     {
@@ -35,8 +42,23 @@ public class PlayerLocomotion : MonoBehaviour
         moveDirection = moveDirection + cameraObj.right * inputManager.horizontalInput;
         moveDirection.Normalize();
         moveDirection.y = 0;
-        moveDirection = moveDirection * movementSpeed;
 
+        if (isSprinting)
+        {
+            moveDirection = moveDirection * sprintingSpeed;
+        }
+        else
+        {
+            if (inputManager.moveAmount >= 0.5f)
+            {
+                moveDirection = moveDirection * runningSpeed;
+            }
+            else
+            {
+                moveDirection = moveDirection * walkSpeed;
+            }
+        }
+        
         Vector3 movementVelocity = moveDirection;
         playerRigidbody.velocity = movementVelocity;
     }
