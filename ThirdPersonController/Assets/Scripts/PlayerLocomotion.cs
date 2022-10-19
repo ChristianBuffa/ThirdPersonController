@@ -19,6 +19,7 @@ public class PlayerLocomotion : MonoBehaviour
     [Header("MovementFlags")]
     public bool isSprinting;
     public bool isGrounded;
+    public bool isJumping;
     
     [Header("Movement Speeds")]
     [FormerlySerializedAs("movementSpeed")] [SerializeField]
@@ -41,6 +42,12 @@ public class PlayerLocomotion : MonoBehaviour
     private float rayCastHeightOffset;
     [SerializeField]
     private LayerMask groundLayer;
+
+    [Header("Jump Speeds")] 
+    [SerializeField]
+    private float jumpHeight;
+    [SerializeField]
+    private float gravityIntensity;
     
     private void Awake()
     {
@@ -63,6 +70,11 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void HandleMovement()
     {
+        if (isJumping)
+        {
+            return;
+        }
+        
         moveDirection = cameraObj.forward * inputManager.verticalInput;
         moveDirection = moveDirection + cameraObj.right * inputManager.horizontalInput;
         moveDirection.Normalize();
@@ -90,23 +102,29 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void HandleRotation()
     {
-        Vector3 targetDirection = Vector3.zero;
-
-        targetDirection = cameraObj.forward * inputManager.verticalInput;
-        targetDirection = targetDirection + cameraObj.right * inputManager.horizontalInput;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
-
-        if(targetDirection == Vector3.zero)
+        if (isJumping)
         {
-            targetDirection = transform.forward;
+            return;
         }
 
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        Vector3 targetDirection = Vector3.zero;
 
-        transform.rotation = playerRotation;
-    }
+            targetDirection = cameraObj.forward * inputManager.verticalInput;
+            targetDirection = targetDirection + cameraObj.right * inputManager.horizontalInput;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
+
+            if (targetDirection == Vector3.zero)
+            {
+                targetDirection = transform.forward;
+            }
+
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation =
+                Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            transform.rotation = playerRotation;
+        }
 
     private void HandleFallingAndLanding()
     {
@@ -114,7 +132,7 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 rayCastOrigin = transform.position;
         rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffset;
 
-        if (!isGrounded)
+        if (!isGrounded && !isJumping)
         {
             if (!playerManager.isInteracting)
             {
@@ -133,6 +151,7 @@ public class PlayerLocomotion : MonoBehaviour
             if (!isGrounded && playerManager.isInteracting)
             {
                 animatorManager.PlayTargetAnimation("Hard Landing", true);
+                playerRigidbody.velocity = new Vector3(0.3f, playerRigidbody.velocity.y, 0.3f);
             }
 
             inAirTimer = 0;
@@ -142,5 +161,23 @@ public class PlayerLocomotion : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void HandleJumping()
+    {
+        if (!isGrounded)
+        {
+            return;
+        }
+        
+        Debug.Log("jump");
+
+        animatorManager.animator.SetBool("isJumping", true);
+        animatorManager.PlayTargetAnimation("Jumping", false);
+
+        float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
+        Vector3 playerVelocity = moveDirection;
+        playerVelocity.y = jumpingVelocity;
+        playerRigidbody.velocity = playerVelocity;
     }
 }

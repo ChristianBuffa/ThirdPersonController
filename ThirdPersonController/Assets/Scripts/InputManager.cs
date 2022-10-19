@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     public float moveAmount;
 
     public bool sprintingInput;
+    public bool jumpInput;
 
     [SerializeField]
     Vector2 movementInput;
@@ -35,6 +36,8 @@ public class InputManager : MonoBehaviour
 
             playerControls.PlayerActions.SprintingButton.performed += i => sprintingInput = true;
             playerControls.PlayerActions.SprintingButton.canceled += i => sprintingInput = false;
+            
+            playerControls.PlayerActions.JumpingButton.performed += i => jumpInput = true;
         }
 
         playerControls.Enable();
@@ -49,6 +52,7 @@ public class InputManager : MonoBehaviour
     {
         HandleMovementInput();
         HandleSprintingInput();
+        HandleJumpingInput();
     }
 
     private void HandleMovementInput()
@@ -69,6 +73,15 @@ public class InputManager : MonoBehaviour
         else
         {
             playerLocomotion.isSprinting = false;
+        }
+    }
+
+    private void HandleJumpingInput()
+    {
+        if (jumpInput)
+        {
+            jumpInput = false;
+            playerLocomotion.HandleJumping();
         }
     }
 }
