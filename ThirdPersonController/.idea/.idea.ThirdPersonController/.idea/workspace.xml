@@ -12,6 +12,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/PlayerControls.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/ResetBool.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -74,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1666132354850</updated>
       <workItem from="1666132357482" duration="36000" />
-      <workItem from="1666132686891" duration="3374000" />
+      <workItem from="1666132686891" duration="8745000" />
     </task>
     <servers />
   </component>

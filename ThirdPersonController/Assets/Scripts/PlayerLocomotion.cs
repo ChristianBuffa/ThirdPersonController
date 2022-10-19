@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -10,11 +11,16 @@ public class PlayerLocomotion : MonoBehaviour
     private InputManager inputManager;
     private Transform cameraObj;
     private Rigidbody playerRigidbody;
-
+    private PlayerManager playerManager;
+    private AnimatorManager animatorManager;
+    
     private Vector3 moveDirection;
 
+    [Header("MovementFlags")]
     public bool isSprinting;
+    public bool isGrounded;
     
+    [Header("Movement Speeds")]
     [FormerlySerializedAs("movementSpeed")] [SerializeField]
     private float runningSpeed;
     [SerializeField]
@@ -23,9 +29,23 @@ public class PlayerLocomotion : MonoBehaviour
     private float walkSpeed;
     [SerializeField] 
     private float sprintingSpeed;
-
+    
+    [Header("Falling")]
+    [SerializeField] 
+    private float inAirTimer;
+    [SerializeField] 
+    private float leapingVelocity;
+    [SerializeField]
+    private float fallingVelocity;
+    [SerializeField] 
+    private float rayCastHeightOffset;
+    [SerializeField]
+    private LayerMask groundLayer;
+    
     private void Awake()
     {
+        animatorManager = GetComponent<AnimatorManager>();
+        playerManager = GetComponent<PlayerManager>();
         inputManager = GetComponent<InputManager>();   
         playerRigidbody = GetComponent<Rigidbody>();
         cameraObj = Camera.main.transform;
@@ -33,6 +53,11 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleAllMovement()
     {
+        HandleFallingAndLanding();
+        
+        if(playerManager.isInteracting)
+            return;
+        
         HandleMovement();
         HandleRotation();
     }
@@ -81,5 +106,48 @@ public class PlayerLocomotion : MonoBehaviour
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         transform.rotation = playerRotation;
+    }
+
+    private void HandleFallingAndLanding()
+    {
+        RaycastHit hit;
+        Vector3 rayCastOrigin = transform.position;
+        rayCastOrigin.y = rayCastOrigin.y + rayCastHeightOffset;
+
+        if (!isGrounded)
+        {
+            if (!playerManager.isInteracting)
+            {
+                animatorManager.PlayTargetAnimation("Falling Idle", true);
+            }
+
+            inAirTimer = inAirTimer + Time.deltaTime;
+            playerRigidbody.AddForce(transform.forward * leapingVelocity);
+            playerRigidbody.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
+        }
+
+        if (Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit, groundLayer))
+        {
+            Debug.Log(hit.collider);
+            
+            if (!isGrounded && playerManager.isInteracting)
+            {
+                animatorManager.PlayTargetAnimation("Hard Landing", true);
+            }
+
+            inAirTimer = 0;
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        
+        Gizmos.DrawSphere(transform.position, 0.2f);
     }
 }
