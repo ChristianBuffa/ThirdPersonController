@@ -38,6 +38,8 @@ public class PlayerLocomotion : MonoBehaviour
     private float leapingVelocity;
     [SerializeField]
     private float fallingVelocity;
+    [SerializeField]
+    private float gravityVelocity;
     [SerializeField] 
     private float rayCastHeightOffset;
     [SerializeField] 
@@ -161,6 +163,10 @@ public class PlayerLocomotion : MonoBehaviour
             inAirTimer = inAirTimer + Time.deltaTime;
             playerRigidbody.AddForce(transform.forward * leapingVelocity);
             playerRigidbody.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
+        }
+        else if (isGrounded && !isJumping)
+        {
+            playerRigidbody.AddForce(-Vector3.up * gravityVelocity);
         }
 
         if (Physics.Raycast(rayCastOrigin,-Vector3.up, out hit, rayCastMaxDistance, groundLayer))

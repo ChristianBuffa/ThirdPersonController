@@ -442,7 +442,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404398383}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.07, y: 0.04, z: 2.32}
+  m_LocalPosition: {x: 3.07, y: -0.085, z: 2.32}
   m_LocalScale: {x: 0.15, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2579,11 +2579,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: stepHeight
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: stepSmooth
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: stepRayLower
@@ -2593,6 +2593,10 @@ PrefabInstance:
       propertyPath: stepRayUpper
       value: 
       objectReference: {fileID: 1030759094}
+    - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: gravityVelocity
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: leapingVelocity
       value: 1
@@ -2607,11 +2611,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: rayCastMaxDistance
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: rayCastHeightOffset
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: stepUpRayMaxDistance
@@ -2619,7 +2623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: stepLowRayMaxDistance
-      value: 0.2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319790, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_Material
@@ -2687,7 +2691,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9160152974219690593, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.179
+      value: 0.004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 120143bb9f506be429fc7be274717115, type: 3}

@@ -725,10 +725,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2682494
-  m_Height: 1.8517644
+  m_Radius: 0.19033787
+  m_Height: 1.8345412
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8985363, z: 0.015715122}
+  m_Center: {x: -0.0033907294, y: 0.90714794, z: 0.0073725283}
 --- !u!114 &2010343602027319788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,15 +782,16 @@ MonoBehaviour:
   inAirTimer: 0
   leapingVelocity: 5
   fallingVelocity: 33
+  gravityVelocity: 0
   rayCastHeightOffset: 0.2
   rayCastMaxDistance: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  jumpHeight: 0
-  gravityIntensity: 0
-  stepRayUpper: {fileID: 0}
-  stepRayLower: {fileID: 0}
+  jumpHeight: 3
+  gravityIntensity: -1
+  stepRayUpper: {fileID: 8593425591150738094}
+  stepRayLower: {fileID: 7993502563781846913}
   stepHeight: 0
   stepSmooth: 0
   stepLowRayMaxDistance: 0
@@ -883,8 +884,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.62331474, y: 0.19225109, z: 0.49917808}
-  m_Center: {x: -0.025025904, y: -0.033391416, z: 0.018254265}
+  m_Size: {x: 0.6505122, y: 0.18110672, z: 0.5998343}
+  m_Center: {x: 0.0023938417, y: -0.07143332, z: 0.018098831}
 --- !u!1 &1760447951078608550
 GameObject:
   m_ObjectHideFlags: 0
@@ -3512,7 +3513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7993502563781846913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.048, z: 0.157}
+  m_LocalPosition: {x: 0, y: 0.001, z: 0.171}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
