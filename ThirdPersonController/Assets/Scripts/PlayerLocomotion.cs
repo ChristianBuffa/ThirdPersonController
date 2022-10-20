@@ -40,6 +40,8 @@ public class PlayerLocomotion : MonoBehaviour
     private float fallingVelocity;
     [SerializeField] 
     private float rayCastHeightOffset;
+    [SerializeField] 
+    private float rayCastMaxDistance;
     [SerializeField]
     private LayerMask groundLayer;
 
@@ -144,7 +146,7 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidbody.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
         }
 
-        if (Physics.SphereCast(rayCastOrigin, 0.2f, -Vector3.up, out hit, groundLayer))
+        if (Physics.Raycast(rayCastOrigin,-Vector3.up, out hit, rayCastMaxDistance, groundLayer))
         {
             Debug.Log(hit.collider);
             
@@ -156,6 +158,7 @@ public class PlayerLocomotion : MonoBehaviour
 
             inAirTimer = 0;
             isGrounded = true;
+            isJumping = false;
         }
         else
         {
@@ -177,5 +180,15 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 playerVelocity = moveDirection;
         playerVelocity.y = jumpingVelocity;
         playerRigidbody.velocity = playerVelocity;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Vector3 raycastOffset = new Vector3(transform.position.x, transform.position.y + rayCastHeightOffset, transform.position.z);
+        Vector3 raycastMaxDist = new Vector3(transform.position.x, transform.position.y + rayCastHeightOffset - rayCastMaxDistance, transform.position.z);
+        
+        Gizmos.DrawLine(raycastOffset, raycastMaxDist);
     }
 }

@@ -1268,9 +1268,29 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: leapingVelocity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: gravityIntensity
       value: -5
       objectReference: {fileID: 0}
+    - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: rayCastMaxDistance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010343602027319777, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: rayCastHeightOffset
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010343602027319790, guid: 120143bb9f506be429fc7be274717115, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 91c705556042db046bf0768d663fc2fc, type: 2}
     - target: {fileID: 2048176477802809876, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_RootOrder
       value: 0
