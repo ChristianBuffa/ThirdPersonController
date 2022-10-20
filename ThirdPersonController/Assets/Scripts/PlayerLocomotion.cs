@@ -38,6 +38,8 @@ public class PlayerLocomotion : MonoBehaviour
     private float leapingVelocity;
     [SerializeField]
     private float fallingVelocity;
+    [SerializeField]
+    private float gravityVelocity;
     [SerializeField] 
     private float rayCastHeightOffset;
     [SerializeField] 
@@ -50,6 +52,20 @@ public class PlayerLocomotion : MonoBehaviour
     private float jumpHeight;
     [SerializeField]
     private float gravityIntensity;
+
+    [Header("Player Step Climb")] 
+    [SerializeField]
+    private GameObject stepRayUpper;
+    [SerializeField]
+    private GameObject stepRayLower;
+    [SerializeField]
+    private float stepHeight;
+    [SerializeField]
+    private float stepSmooth;
+    [SerializeField]
+    private float stepLowRayMaxDistance;
+    [SerializeField]
+    private float stepUpRayMaxDistance;
     
     private void Awake()
     {
@@ -58,6 +74,8 @@ public class PlayerLocomotion : MonoBehaviour
         inputManager = GetComponent<InputManager>();   
         playerRigidbody = GetComponent<Rigidbody>();
         cameraObj = Camera.main.transform;
+
+        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
     }
 
     public void HandleAllMovement()
@@ -69,6 +87,7 @@ public class PlayerLocomotion : MonoBehaviour
         
         HandleMovement();
         HandleRotation();
+        HandleStepClimb();
     }
     private void HandleMovement()
     {
@@ -145,6 +164,10 @@ public class PlayerLocomotion : MonoBehaviour
             playerRigidbody.AddForce(transform.forward * leapingVelocity);
             playerRigidbody.AddForce(-Vector3.up * fallingVelocity * inAirTimer);
         }
+        else if (isGrounded && !isJumping)
+        {
+            playerRigidbody.AddForce(-Vector3.up * gravityVelocity);
+        }
 
         if (Physics.Raycast(rayCastOrigin,-Vector3.up, out hit, rayCastMaxDistance, groundLayer))
         {
@@ -157,12 +180,12 @@ public class PlayerLocomotion : MonoBehaviour
             }
 
             inAirTimer = 0;
-            isGrounded = true;
+            //isGrounded = true;
             isJumping = false;
         }
         else
         {
-            isGrounded = false;
+            //isGrounded = false;
         }
     }
 
@@ -180,6 +203,40 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 playerVelocity = moveDirection;
         playerVelocity.y = jumpingVelocity;
         playerRigidbody.velocity = playerVelocity;
+    }
+
+    private void HandleStepClimb()
+    {
+        RaycastHit hitLower;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, stepLowRayMaxDistance))
+        {
+            RaycastHit hitUpper;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, stepUpRayMaxDistance))
+            {
+                playerRigidbody.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+        }
+        
+        RaycastHit hitLower45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, stepLowRayMaxDistance))
+        {
+            RaycastHit hitUpper45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, stepUpRayMaxDistance))
+            {
+                playerRigidbody.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+        }
+        
+        RaycastHit hitLowerMinus45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, stepLowRayMaxDistance))
+        {
+            RaycastHit hitUpperMinus45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, stepUpRayMaxDistance))
+            {
+                Debug.Log("gianni");
+                playerRigidbody.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+        }
     }
 
     private void OnDrawGizmos()
