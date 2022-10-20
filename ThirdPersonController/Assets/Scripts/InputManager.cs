@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     private PlayerControls playerControls;
     private AnimatorManager animatorManager;
     private PlayerLocomotion playerLocomotion;
+    private PlayerManager playerManager;
 
     public float moveAmount;
 
@@ -24,6 +25,7 @@ public class InputManager : MonoBehaviour
     {
         animatorManager = GetComponent<AnimatorManager>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
     private void OnEnable()
@@ -57,6 +59,11 @@ public class InputManager : MonoBehaviour
 
     private void HandleMovementInput()
     {
+        if (playerManager.isInteracting)
+        {
+            return;
+        }
+        
         verticalInput = movementInput.y;
         horizontalInput = movementInput.x;
 

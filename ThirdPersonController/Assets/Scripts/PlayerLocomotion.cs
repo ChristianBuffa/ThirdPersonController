@@ -70,11 +70,11 @@ public class PlayerLocomotion : MonoBehaviour
     }
     private void HandleMovement()
     {
-        if (isJumping)
+        if (isJumping || playerManager.isInteracting)
         {
             return;
         }
-        
+
         moveDirection = cameraObj.forward * inputManager.verticalInput;
         moveDirection = moveDirection + cameraObj.right * inputManager.horizontalInput;
         moveDirection.Normalize();
@@ -170,10 +170,8 @@ public class PlayerLocomotion : MonoBehaviour
             return;
         }
         
-        Debug.Log("jump");
-
         animatorManager.animator.SetBool("isJumping", true);
-        animatorManager.PlayTargetAnimation("Jumping", false);
+        animatorManager.PlayTargetAnimation("Jumping", true);
 
         float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
         Vector3 playerVelocity = moveDirection;
