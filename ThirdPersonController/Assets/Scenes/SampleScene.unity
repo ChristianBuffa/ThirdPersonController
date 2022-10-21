@@ -1110,6 +1110,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404398383}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &421954534 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1668378101552189614, guid: 120143bb9f506be429fc7be274717115, type: 3}
+  m_PrefabInstance: {fileID: 2010343601188166216}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &465561965
 GameObject:
   m_ObjectHideFlags: 0
@@ -3927,6 +3932,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823715217}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1953520914 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7121956172359287811, guid: 120143bb9f506be429fc7be274717115, type: 3}
+  m_PrefabInstance: {fileID: 2010343601188166216}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1964769093 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1397078565833637849, guid: 120143bb9f506be429fc7be274717115, type: 3}
@@ -4307,6 +4317,19 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2048176477802809876, guid: 120143bb9f506be429fc7be274717115, type: 3}
   m_PrefabInstance: {fileID: 2010343601188166216}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &543450651673464932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421954534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42144fdfa9b2b0743985e3ea8144578a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigSkeleton: {fileID: 1953520914}
 --- !u!1001 &2010343601188166216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4376,7 +4399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319790, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2010343602027319790, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_Material
@@ -4428,7 +4451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5371872359684935790, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5371872359684935790, guid: 120143bb9f506be429fc7be274717115, type: 3}
       propertyPath: m_ApplyRootMotion

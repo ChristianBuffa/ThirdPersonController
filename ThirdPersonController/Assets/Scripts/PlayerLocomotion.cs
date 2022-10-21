@@ -13,6 +13,7 @@ public class PlayerLocomotion : MonoBehaviour
     private Rigidbody playerRigidbody;
     private PlayerManager playerManager;
     private AnimatorManager animatorManager;
+    private RagdollManager ragdollManager;
     
     private Vector3 moveDirection;
 
@@ -20,6 +21,7 @@ public class PlayerLocomotion : MonoBehaviour
     public bool isSprinting;
     public bool isGrounded;
     public bool isJumping;
+    public bool isRagdoll;
     
     [Header("Movement Speeds")]
     [FormerlySerializedAs("movementSpeed")] [SerializeField]
@@ -69,6 +71,7 @@ public class PlayerLocomotion : MonoBehaviour
     
     private void Awake()
     {
+        ragdollManager = GetComponent<RagdollManager>();
         animatorManager = GetComponent<AnimatorManager>();
         playerManager = GetComponent<PlayerManager>();
         inputManager = GetComponent<InputManager>();   
@@ -81,8 +84,8 @@ public class PlayerLocomotion : MonoBehaviour
     public void HandleAllMovement()
     {
         HandleFallingAndLanding();
-        
-        if(playerManager.isInteracting)
+
+        if(playerManager.isInteracting || isRagdoll)
             return;
         
         HandleMovement();
@@ -239,6 +242,24 @@ public class PlayerLocomotion : MonoBehaviour
         }
     }
 
+    public void HandleRagdoll()
+    {
+        if (!isRagdoll)
+        {
+            ragdollManager.RagdollModeOn();
+            isRagdoll = true;
+        }
+        else if(isRagdoll)
+        {
+            playerRigidbody.isKinematic = false;
+            playerRigidbody.position = gameObject.transform.position;
+            
+            ragdollManager.RagdollModeOff();
+            isRagdoll = false;
+            animatorManager.PlayTargetAnimation("Get Up", true);
+        }
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

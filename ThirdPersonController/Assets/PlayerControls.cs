@@ -171,6 +171,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RagdollButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc7785e2-3ca8-4b54-bdb8-6e2f6ead6a00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -217,6 +226,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""JumpingButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""112d1450-6222-470a-a259-f5cc4c8797c6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RagdollButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5dd31ea-9748-43d9-8934-d3b2217266ee"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RagdollButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -230,6 +261,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_SprintingButton = m_PlayerActions.FindAction("SprintingButton", throwIfNotFound: true);
         m_PlayerActions_JumpingButton = m_PlayerActions.FindAction("JumpingButton", throwIfNotFound: true);
+        m_PlayerActions_RagdollButton = m_PlayerActions.FindAction("RagdollButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -324,12 +356,14 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerActionsActions m_PlayerActionsActionsCallbackInterface;
     private readonly InputAction m_PlayerActions_SprintingButton;
     private readonly InputAction m_PlayerActions_JumpingButton;
+    private readonly InputAction m_PlayerActions_RagdollButton;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActionsActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @SprintingButton => m_Wrapper.m_PlayerActions_SprintingButton;
         public InputAction @JumpingButton => m_Wrapper.m_PlayerActions_JumpingButton;
+        public InputAction @RagdollButton => m_Wrapper.m_PlayerActions_RagdollButton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -345,6 +379,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @JumpingButton.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJumpingButton;
                 @JumpingButton.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJumpingButton;
                 @JumpingButton.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnJumpingButton;
+                @RagdollButton.started -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRagdollButton;
+                @RagdollButton.performed -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRagdollButton;
+                @RagdollButton.canceled -= m_Wrapper.m_PlayerActionsActionsCallbackInterface.OnRagdollButton;
             }
             m_Wrapper.m_PlayerActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -355,6 +392,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @JumpingButton.started += instance.OnJumpingButton;
                 @JumpingButton.performed += instance.OnJumpingButton;
                 @JumpingButton.canceled += instance.OnJumpingButton;
+                @RagdollButton.started += instance.OnRagdollButton;
+                @RagdollButton.performed += instance.OnRagdollButton;
+                @RagdollButton.canceled += instance.OnRagdollButton;
             }
         }
     }
@@ -367,5 +407,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnSprintingButton(InputAction.CallbackContext context);
         void OnJumpingButton(InputAction.CallbackContext context);
+        void OnRagdollButton(InputAction.CallbackContext context);
     }
 }

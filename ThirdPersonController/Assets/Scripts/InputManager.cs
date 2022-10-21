@@ -13,6 +13,7 @@ public class InputManager : MonoBehaviour
 
     public bool sprintingInput;
     public bool jumpInput;
+    public bool ragdollInput;
 
     [SerializeField]
     Vector2 movementInput;
@@ -38,7 +39,8 @@ public class InputManager : MonoBehaviour
 
             playerControls.PlayerActions.SprintingButton.performed += i => sprintingInput = true;
             playerControls.PlayerActions.SprintingButton.canceled += i => sprintingInput = false;
-            
+
+            playerControls.PlayerActions.RagdollButton.performed += i => {playerLocomotion.HandleRagdoll();};
             playerControls.PlayerActions.JumpingButton.performed += i => jumpInput = true;
         }
 
